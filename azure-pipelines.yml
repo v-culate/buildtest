@@ -1,0 +1,32 @@
+stages:
+  - stage: Build
+    jobs:
+      - job:
+        displayName: "Build"
+        pool:
+          name: "Degreed Windows"
+        variables:
+          - group: Global Settings
+        steps:
+          - checkout: self
+            clean: true
+          - task: NuGetToolInstaller@1
+            displayName: "Use NuGet 5.8.x"
+            inputs:
+              versionSpec: 5.8.x
+          - task: NuGetCommand@2
+            displayName: "NuGet restore"
+            inputs:
+              restoreSolution: "**/BuildTest.sln"
+              verbosityRestore: normal
+              feedsToUse: "config"
+              nugetConfigPath: "$(Build.SourcesDirectory)/nuget.config"
+          - task: MSBuild@1
+            displayName: "Build"
+            inputs:
+              solution: BuildTest/BuildTest.csproj
+              msbuildArchitecture: x64
+              platform: AnyCPU
+              configuration: Release
+              maximumCpuCount: true
+              msbuildArguments: "/p:BuildInParallel=true /p:WebPublishMethod=FileSystem /p:PublishUrl=publish /t:WebPublish /Verbosity:minimal /warnaserror /p:TreatWarningsAsErrors=true /p:PrecompileBeforePublish=True /p:UseMerge=True /p:SingleAssemblyName=BuildTest.CompiledViews /p:EnableUpdateable=false /p:DebugSymbols=true"
