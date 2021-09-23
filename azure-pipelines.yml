@@ -4,9 +4,7 @@ stages:
       - job:
         displayName: "Build"
         pool:
-          name: "Degreed Windows"
-        variables:
-          - group: Global Settings
+          vmImage: "windows-latest"
         steps:
           - checkout: self
             clean: true
