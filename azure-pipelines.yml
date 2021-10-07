@@ -8,17 +8,17 @@ stages:
         steps:
           - checkout: self
             clean: true
-          - task: NuGetToolInstaller@1
-            displayName: "Use NuGet 5.8.x"
-            inputs:
-              versionSpec: 5.8.x
-          - task: NuGetCommand@2
-            displayName: "NuGet restore"
-            inputs:
-              restoreSolution: "**/BuildTest.sln"
-              verbosityRestore: normal
-              feedsToUse: "config"
-              nugetConfigPath: "$(Build.SourcesDirectory)/nuget.config"
+          # - task: NuGetToolInstaller@1
+          #   displayName: "Use NuGet 5.8.x"
+          #   inputs:
+          #     versionSpec: 5.8.x
+          # - task: NuGetCommand@2
+          #   displayName: "NuGet restore"
+          #   inputs:
+          #     restoreSolution: "**/BuildTest.sln"
+          #     verbosityRestore: normal
+          #     feedsToUse: "config"
+          #     nugetConfigPath: "$(Build.SourcesDirectory)/nuget.config"
           - task: MSBuild@1
             displayName: "Build"
             inputs:
